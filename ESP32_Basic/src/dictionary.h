@@ -1,39 +1,42 @@
 /***********************************************************************
-*! \file:                   LOGGING.h
+*! \file:                   dictionary.h
 *  \projekt:                FT800_ESP
-*  \created on:             2020.07.04
+*  \created on:             26.07.2020
 *  \author:                 R. Gräber
 *  \version:                0
 *  \history:                -
 *  \brief
 ***********************************************************************/
-
-#ifndef _LOGGING_H_
-#define _LOGGING_H_
+ 
+#ifndef _dictionary_H_
+#define _dictionary_H_
  
 /***********************************************************************
  * Includes
  **********************************************************************/
- #include <Arduino.h>
- #include "Thread.h"
- #include "uptime_formatter.h"
+ 
 /***********************************************************************
  * Informations
  **********************************************************************/
 //https://www.dyclassroom.com/c/c-pointers-and-two-dimensional-array
-
-/***********************************************************************
- * Configuration Switches
- **********************************************************************/
-#define _serial_console_enable_
-//#define _serial_console_0_
-#define _serial_console_baudrate_ 115200
-
-#define _default_periodic_logging_ms_ 30000
+ 
 /***********************************************************************
  * Declarations
  **********************************************************************/
- using namespace std;
+ enum SignPsoition_in_Array{
+    TabSign = 0
+};
+
+const char Space_Syllable[] = " ";
+const char Net_Syllable[] = "Net";
+const char Work_Syllable[] = "Work";
+const char Connected_Syllable[] = "Connected";
+const char Error_Syllable[] = "Error";
+const char Dis_Syllable[] = "Dis";
+const char Up_Syllable[] = "Up";
+const char Time_Syllable[] = "Time";
+
+
 /***********************************************************************
  * Global Variable
  **********************************************************************/
@@ -49,20 +52,8 @@
 /***********************************************************************
  * Funtions
  **********************************************************************/
- class logging {
-
-    private:
-        uint32_t current_logging_time = 0;
-        static bool _serial_log_enable_;
-
-    public:
-        //constructor
-        logging();
-        logging(uint32_t logging_ms);
-        static void callback_logging();
-        //set_logging_speed_ms(uint32_t logging_time);
-
-};
  
-#endif /* _LOGGING_H_ */
-
+ 
+ 
+ 
+#endif /* _dictionary_H_ */
