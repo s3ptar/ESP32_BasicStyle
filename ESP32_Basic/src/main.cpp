@@ -1,9 +1,11 @@
 #include <Arduino.h>
 #include "settings.h"
 #include "global_var.h"
-#include "ThreadController.h"
-#include "uptime_formatter.h"
-#include "dictionary.h"
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <WebServer.h>
+#include <index.h>
+
 
 /***********************************************************************
 * Informations
@@ -12,11 +14,13 @@
 /***********************************************************************
 * Declarations
 ***********************************************************************/
- 
+ WebServer server(80);
 /***********************************************************************
 * Global Variable
 ***********************************************************************/
-
+//Enter your SSID and PASSWORD
+const char* ssid = "chilihotdog";
+const char* password = "bxJHckMMkGqEPfY3Jf3nZnAn5FtGYwKZSkzVvbzFHNbpUZfv79GXm8afDuNu";
 /***********************************************************************
 * Constant
 ***********************************************************************/
@@ -24,37 +28,21 @@
 /***********************************************************************
 * Local Funtions
 ***********************************************************************/
-hw_timer_t * timer = NULL;
 
-// ThreadController that will controll all threads
-ThreadController controll = ThreadController();
-//My Thread
-Thread StatusThread = Thread();
-
-/***********************************************************************
-*! \fn          void timerCallback()
-*  \brief       This is the callback for the Timer
-*  \param       none
-*  \exception   none
-*  \return      none
-***********************************************************************/
-void timerCallback(){
-    controll.run();
+//===============================================================
+// This routine is executed when you open its IP in browser
+//===============================================================
+void handleRoot() {
+ String s = MAIN_page; //Read HTML contents
+ server.send(200, "text/html", s); //Send web page
 }
-
-/***********************************************************************
-*! \fn          void setup()
-*  \brief       Arduino Setup - Routine
-*  \param       none
-*  \exception   none
-*  \return      none
-***********************************************************************/
-void print_status_to_concole(){
-
-
-
+ 
+void handleADC() {
+ int a = analogRead(A0);
+ String adcValue = String(a);
+ 
+ server.send(200, "text/plane", adcValue); //Send ADC value only to client ajax request
 }
-
 
 /***********************************************************************
 *! \fn          void setup()
@@ -65,25 +53,40 @@ void print_status_to_concole(){
 ***********************************************************************/
 void setup() {
     // put your setup code here, to run once:
-  
-    /******************* Configure Threads *************************/
-    StatusThread.onRun(print_status_to_concole);
-	StatusThread.setInterval(30000);
-    controll.add(&StatusThread);
-    /******************* Configure Threadcontroller *************************/
-    /* Use 1st timer of 4 */
-    /* 1 tick take 1/(80MHZ/80) = 1us so we set divider 80 and count up */
-    timer = timerBegin(0, 80, true);
-    /* Attach ThreadController function to timer */
-    timerAttachInterrupt(timer, timerCallback, true);
-    /* Set alarm to call onTimer function every second 1 tick is 1us
-    => 1 second is 1000000us */
-    /* Repeat the alarm (third parameter) */
-    timerAlarmWrite(timer, 1000000, true);
-    /* Start an alarm */
-    timerAlarmEnable(timer);
-
     Serial.begin(115200);
+  Serial.println();
+  Serial.println("Booting Sketch...");
+ 
+/*
+//ESP32 As access point
+  WiFi.mode(WIFI_AP); //Access Point mode
+  WiFi.softAP(ssid, password);
+*/
+//ESP32 connects to your wifi -----------------------------------
+  WiFi.mode(WIFI_STA); //Connectto your wifi
+  WiFi.begin(ssid, password);
+ 
+  Serial.println("Connecting to ");
+  Serial.print(ssid);
+ 
+  //Wait for WiFi to connect
+  while(WiFi.waitForConnectResult() != WL_CONNECTED){      
+      Serial.print(".");
+    }
+    
+  //If connection successful show IP address in serial monitor
+  Serial.println("");
+  Serial.print("Connected to ");
+  Serial.println(ssid);
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());  //IP address assigned to your ESP
+//----------------------------------------------------------------
+ 
+  server.on("/", handleRoot);      //This is display page
+  server.on("/readADC", handleADC);//To get update of ADC Value only
+ 
+  server.begin();                  //Start server
+  Serial.println("HTTP server started");
 }
 
 /***********************************************************************
@@ -94,8 +97,8 @@ void setup() {
 *  \return      none
 ***********************************************************************/
 void loop() {
-  // put your main code here, to run repeatedly:
-
-    controll.run();
+    // put your main code here, to run repeatedly:
+    server.handleClient();
+    delay(1);
 
 }
