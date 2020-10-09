@@ -51,9 +51,7 @@ void timerCallback(){
 ***********************************************************************/
 void print_status_to_concole(){
 
-    //Print Systemuptime 
-    Serial.print(Up_Syllable); Serial.write((Time_Syllable[0]+0x20)); Serial.print(&Time_Syllable[1]); Serial.print(Space_Syllable); Serial.println(uptime_formatter::getUptime()); 
-    //Print Networkconfiguration
+
 
 }
 

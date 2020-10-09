@@ -1,0 +1,16 @@
+---
+config:
+    SSD1306I2C: true
+    NATIVE_MBEDTLS: true
+specs:
+    disk: null
+    port: null
+    probe: null
+target: null
+vm:
+    dev_uid: null
+    features: []
+    rtos: null
+    uid: null
+    version: null
+...

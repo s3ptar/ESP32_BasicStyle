@@ -1,0 +1,8 @@
+# The ssd1306 can use either the spi or the i2c interface
+# the flag SSD1306SPI enables the spi interface
+# the flag SSD1306I2C enables the i2c interface
+# those two flags can't be set both to true 
+---
+config:
+    SSD1306SPI: null
+    SSD1306I2C: true
