@@ -24,9 +24,8 @@
 * Global Variable
 ***********************************************************************/
  
-char glb_IPv4_address[] = {0x00,0x00,0x00,0x00};
-char glb_MAC_address[] = {0x00, 0x00, 0x00, 0x00, 0x00};
-char glb_WLan_SSID[255];
+char glb_IPv4_address[24];
+char glb_MAC_address[24];
 
 /***********************************************************************
 * Constant
