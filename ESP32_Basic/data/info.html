@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Information Site Wismar</title>
+		<title>ESP Basic</title>
 
 		<meta name="viewport" content="initial-scale=1.0, width=device-width">
 
@@ -63,24 +63,7 @@
 				return (number < 10) ? '0' + number : number;
 			}
 			
-			/***********************************************************************
-			*! \fn          loadXMLDoc()
-			*  \brief       Example to lad separete data
-			*  \param       none
-			*  \exception   none
-			*  \return      none
-			***********************************************************************/
-			function loadXMLDoc() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("id_header").innerHTML =
-                        this.responseText;
-                    }
-                 };
-                 xhttp.open("GET", "content.txt", true);
-                 xhttp.send();
-		    }			
+			
 		</script>
 
 		<style type="text/css">
@@ -113,8 +96,6 @@
 				text-align: center;
 			}
 			
-			.navigationsites{
-			}
 		    .header {
 			    grid-area: header;	
 				color : white;
@@ -156,97 +137,6 @@
 			    grid-area: connection;
 			}
 			
-			nav {
-                 box-sizing: border-box;
-                 float: left;
-                 width: 100%;
-                 background: #3a3a3a;
-                 font-size: 16px;
-            }
-			
-			nav ul {
-                margin: 0;
-                padding: 0;
-            }
-             
-            nav a {
-                display: block;
-                color: #fff;
-                text-decoration: none;
-            }
-			
-            nav ul li {
-                position: relative;
-                float: left;
-                list-style: none;
-            }
-             
-            nav ul li:hover {
-                background: #4096ee;
-            }
-             
-            nav ul li a {
-                padding: 20px;
-            } 
-			
-		    nav ul ul {
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-                background: #333;
-                box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6);
-            }
-             
-            nav ul ul li {
-                float: none;
-                width: 200px;
-                border-bottom: 1px solid #555;
-            }
-             
-            nav ul ul li a {
-               padding: 10px 20px;
-            }
-			
-			nav ul li:hover > ul {
-                top: 100%;
-                left: 0;
-            }
-			
-            nav ul li:hover > ul {
-                top: 100%;
-                left: 0;
-            }
-            
-            nav ul ul li:hover > ul {
-                top: 0;
-                left: 200px;
-            }
-            
-            nav ul li.submenu > a:after {
-                position: relative;
-                float: right;
-                content: '';
-                margin-left: 10px;
-                margin-top: 5px;
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-top: 5px solid #fff;
-                border-bottom: 5px solid transparent;
-            }
-            
-            nav ul ul li.submenu a:after {
-                margin-left: auto;
-                margin-right: -10px;
-                border-left: 5px solid #fff;
-                border-right: 5px solid transparent;
-                border-top: 5px solid transparent;
-                border-bottom: 5px solid transparent;
-            }
-            
-            nav ul ul li:last-child {
-                border-bottom: none;
-            }
-			
 			.grid {
 				display: grid;
 				min-height: 98vh;
@@ -263,27 +153,8 @@
 				grid-template-columns: 1fr;
 			}
 
-			@media (min-width: 540px) {
-			    .grid {
-					grid-template-areas:
-						"logo header_information"
-						"header header"
-						"menu_area menu_area"
-						"left-sidebar right-sidebar"
-						"content content"
-						"footer connection"
-					;
-					grid-template-columns: 1fr 2fr;
-			  }
-			  .center {
-					display: block;
-					margin-left: auto;
-					margin-right: auto;
-					width: 50%;
-				}
-			}
 
-			@media (min-width: 1000px) {
+			@media (min-width: 100px) {
 			    .grid {
 					min-height: 98vh;
 					grid-template-areas: 
@@ -326,40 +197,7 @@
 			</div>
 			<div class="box menu_area informationcolor">
 			    <div  id="navigationsites_ID">
-			    <nav>
-                    <ul>
-                        <li><a href="empty.html" title="Nach Hause" >Home</a></li>
-                        <li class="submenu"><a href="empty.html" title="Programmierstationen">Programmierstationen</a>
-                            <ul>
-                                <li class="submenu"><a href="empty.html" title="RsView32">RsView32</a>
-                                    <ul>
-                                        <li><a href="empty.html" title="WISWTCV480" onclick='download_rdp_file("wiswtcv480")'>WISWTCV480</a></li>
-                                        <li><a href="empty.html" title="WISWTCV501" onclick='download_rdp_file("wiswtcv501")'>WISWTCV501</a></li>
-                                        <li><a href="empty.html" title="WISWTCV505" onclick='download_rdp_file("wiswtcv505")'>WISWTCV505</a></li>
-                                    </ul>
-                                </li>
-                                <li class="submenu"><a href="empty.html" title="Step 7, WinCC flex, Advanced + Prof.">SIMATIC</a>
-                                    <ul>
-                                        <li><a href="empty.html" title="WISWTCV480" onclick='download_rdp_file("WISWTCV503")'>WISWTCV503</a></li>
-                                        <li><a href="empty.html" title="WISWTCV480" onclick='download_rdp_file("WISWTCV506")'>WISWTCV506</a></li>
-                                        <li><a href="empty.html" title="WISWTCV480" onclick='download_rdp_file("WISWTCV508")'>WISWTCV508</a></li>
-										<li><a href="empty.html" title="WISWTCV480" onclick='download_rdp_file("WISWTCV509")'>WISWTCV508</a></li>
-                                        <li><a href="empty.html" title="WISWTCV480" onclick='download_rdp_file("WISWTCV512")'>WISWTCV512</a></li>
-                                        <li><a href="empty.html" title="WISWTCV480" onclick='download_rdp_file("WISWTCV513")'>WISWTCV513</a></li>
-										<li><a href="empty.html" title="WISWTCV480" onclick='download_rdp_file("WISWTCV515")'>WISWTCV515</a></li>
-									</ul>                       
-                                </li>
-								<li class="submenu"><a href="empty.html" title="InTouch">InTouch</a>
-								    <ul>
-									    <li><a href="empty.html" title="WISWTCV480" onclick='download_rdp_file("WISWTCV512")'>WISWTCV512</a></li>
-                                        <li><a href="empty.html" title="WISWTCV480" onclick='download_rdp_file("WISWTCV513")'>WISWTCV513</a></li>
-										<li><a href="empty.html" title="WISWTCV480" onclick='download_rdp_file("WISWTCV515")'>WISWTCV515</a></li>
-									</ul>
-								</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
+			    
 				</div>
 			</div>
 			<!--<div class="box left-sidebar">left</div>-->

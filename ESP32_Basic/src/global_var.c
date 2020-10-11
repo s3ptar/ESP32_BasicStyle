@@ -26,6 +26,7 @@
  
 char glb_IPv4_address[24];
 char glb_MAC_address[24];
+char glb_device_name[128];
 
 /***********************************************************************
 * Constant

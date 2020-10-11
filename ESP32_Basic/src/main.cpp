@@ -35,6 +35,7 @@ const char* password = "";
 // Replaces placeholder with LED state value
 String processor(const String& var){
     //Serial.println(var); 
+    return "";
 }
 
 /***********************************************************************
@@ -59,14 +60,22 @@ void execption_handling(uint32_t error_code){
 *  \return      none
 ***********************************************************************/
 void setup() {
+
+    //############ local Variablen #################################
+
+    uint8_t Wlan_Connection_Fails = 10;
+
+    //############ Monting Filesystem #################################
     // put your setup code here, to run once:
     Serial.begin(115200);
     Serial.println();
     Serial.println("Booting Device...");
-    //ead unique mac adddr
+    //get unique mac adddr
     WiFi.macAddress().toCharArray(glb_MAC_address,24);
     //build device name
+    sprintf(glb_device_name, "%s_%s" ,PROJECT,glb_MAC_address);
     Serial.println(glb_MAC_address);
+    Serial.println(glb_device_name);
 
     //############ Monting Filesystem #################################
 
@@ -106,25 +115,53 @@ void setup() {
     //JsonObject obj = doc[0];
     ssid = ConfigObj["wlan"]["ssid"];
     password = ConfigObj["wlan"]["pass"];
-
-    //############ Try WLan #################################
-    WiFi.mode(WIFI_STA); //Connectto your wifi
-    
-    while (WiFi.status() != WL_CONNECTED) {
-        WiFi.begin(ssid, password);
-        delay(1000);
-        Serial.println("Connecting to WiFi..");
-    }
-    Serial.println("Connected to the WiFi network");
     JSONConfigFile.close();
 
+    //check if no SSID and Passphrase insert, switch to Stand AnloneStation Mode
+    if ((strlen(ssid) > 0) & (strlen(password) > 0)) {
+
+        //############ Try to connect to WLan #################################
+        WiFi.mode(WIFI_STA); //Connectto your wifi
+    
+        while ((WiFi.status() != WL_CONNECTED && (Wlan_Connection_Fails > 0) )) {
+            WiFi.begin(ssid, password);
+            delay(1000);
+            Serial.println("Connecting to WiFi..");
+            Wlan_Connection_Fails--;
+        }
+        if(WiFi.status() == WL_CONNECTED){
+            Serial.println("Connected to the WiFi network");
+            WiFi.localIP().toString().toCharArray(glb_IPv4_address,24);
+        }
+    }
+
+    //if no connection here, start AP Mode
+    if (WiFi.status() != WL_CONNECTED) {
+
+        WiFi.mode(WIFI_AP); //Connectto your wifi
+        if(!WiFi.softAPConfig(IPAddress(192, 168, 5, 1), IPAddress(192, 168, 5, 1), IPAddress(255, 255, 255, 0))){
+            Serial.println("AP Config Failed");
+        }    
+        if(WiFi.softAP(glb_device_name,"password")){
+            Serial.println("");
+            Serial.println("Network " + String(glb_device_name) + " running");
+            Serial.print("AP IP address: ");
+            WiFi.softAPIP().toString().toCharArray(glb_IPv4_address,24);
+        } else {
+            Serial.println("Starting AP failed.");
+        }
+
+    }
     //get current ip address
-    WiFi.localIP().toString().toCharArray(glb_IPv4_address,24);
     Serial.println(glb_IPv4_address);
 
     // Route for root / web page
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
         request->send(SPIFFS, "/info.html", String(), false, processor);
+    });
+
+    server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(SPIFFS, "/favicon.png", "image/png");
     });
 
     // Start server
@@ -142,5 +179,6 @@ void setup() {
 void loop() {
     // put your main code here, to run repeatedly:
     delay(1);
+
 
 }
