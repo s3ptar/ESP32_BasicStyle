@@ -6,7 +6,8 @@
 #include <SPIFFS.h>
 #include <error_codes.h>
 #include <ArduinoJson.h>
-
+#include "global_var.h"
+#include "stdint.h"
 /***********************************************************************
 * Informations
 ***********************************************************************/
@@ -17,6 +18,7 @@
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 AsyncEventSource events("/events");
+HardwareSerial SerialCom1(1);
 /***********************************************************************
 * Global Variable
 ***********************************************************************/
@@ -30,7 +32,7 @@ const char* password = "";
 /***********************************************************************
 * Local Funtions
 ***********************************************************************/
-
+void hwdrv_serial();
 
 // Replaces placeholder with LED state value
 String processor(const String& var){
@@ -68,12 +70,17 @@ void setup() {
     //############ Monting Filesystem #################################
     // put your setup code here, to run once:
     Serial.begin(115200);
+    
     Serial.println();
     Serial.println("Booting Device...");
     //get unique mac adddr
     WiFi.macAddress().toCharArray(glb_MAC_address,24);
     //build device name
+<<<<<<< Updated upstream
     sprintf(glb_device_name, "%s_%s" ,PROJECT,glb_MAC_address);
+=======
+    //sprintf(glb_device_name, "%s_%s" ,PROJECT,glb_MAC_address);
+>>>>>>> Stashed changes
     Serial.println(glb_MAC_address);
     Serial.println(glb_device_name);
 
@@ -160,7 +167,15 @@ void setup() {
         request->send(SPIFFS, "/info.html", String(), false, processor);
     });
 
+<<<<<<< Updated upstream
     server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request){
+=======
+    server.on("/ID.html", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(SPIFFS, "/ID.html", String(), false, processor);
+    });
+
+    server.on("/favicon.png", HTTP_GET, [](AsyncWebServerRequest *request){
+>>>>>>> Stashed changes
         request->send(SPIFFS, "/favicon.png", "image/png");
     });
 
@@ -170,7 +185,7 @@ void setup() {
 }
 
 /***********************************************************************
-*! \fn          void loop(){
+*! \fn          void loop()
 *  \brief       construct host command and send to graphics controller
 *  \param       uint32_t HostCommand
 *  \exception   none
@@ -181,4 +196,30 @@ void loop() {
     delay(1);
 
 
+<<<<<<< Updated upstream
+=======
+}
+
+
+/***********************************************************************
+*! \fn          void hwdrv_write_serial(uint8_t ComPort)
+*  \brief       hardware layer for serial output
+*  \param       uint8_t ComPort - to write
+*  \exception   none
+*  \return      none
+***********************************************************************/
+void hwdrv_write_serial(uint8_t ComPort) {
+    // put your main code here, to run repeatedly:
+    switch(ComPort){
+        case 1: {
+            Serial.println();
+            break;
+        }
+
+        default :
+            Serial.println();
+
+    }
+
+>>>>>>> Stashed changes
 }

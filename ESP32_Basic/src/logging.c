@@ -1,6 +1,6 @@
 /***********************************************************************
-*! \file:                   error_codes.c
-*  \projekt:                error_codes
+*! \file:                   logging.c
+*  \projekt:                logging
 *  \created on:             26.07.2020
 *  \author:                 R. Gräber
 *  \version:                0
@@ -11,7 +11,8 @@
 /***********************************************************************
 * Includes
 ***********************************************************************/
-#include "error_codes.h"
+#include "logging.h"
+
 /***********************************************************************
 * Informations
 ***********************************************************************/
@@ -19,7 +20,7 @@
 /***********************************************************************
 * Declarations
 ***********************************************************************/
- 
+
 /***********************************************************************
 * Global Variable
 ***********************************************************************/
@@ -33,10 +34,25 @@
 ***********************************************************************/
  
 /***********************************************************************
-*! \fn          int16_t create_fb(char *dataPtr, byte *fb)
-*  \brief       reset the Framebuffer
-*  \param       dataPtr String to scroll across
-*  \param       fb Pointer to the frame buffer array
+*! \fn          void AddLogEntry(uint8_t source_id, uint16_t task_id, uint16_t error_id)
+*  \brief       write messages to log deives
+*  \param       uint8_t source_id - id of source
+*  \param       uint16_t task_id
+*  \param       uint16_t error_id
 *  \exception   none
 *  \return      length of frame buffer
 ***********************************************************************/
+void AddLogEntry(uint8_t source_id, uint16_t task_id, uint16_t error_id){
+
+#ifdef _logging_level_enable_
+
+#ifdef _logging_level_1_ 
+
+    hwdrv_write_serial(1);
+
+#endif //_logging_level_1_  
+
+#endif //_logging_level_enable
+
+
+}

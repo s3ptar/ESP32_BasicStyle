@@ -12,67 +12,31 @@
 #define _error_codes_H_
  
 /***********************************************************************
-* Includes
-**********************************************************************/
-#include "logging.h"
-#include "user_config.h"
+ * Includes
+ **********************************************************************/
+ 
 /***********************************************************************
-* Informations
-**********************************************************************/
+ * Informations
+ **********************************************************************/
 //https://www.dyclassroom.com/c/c-pointers-and-two-dimensional-array
  
 /***********************************************************************
-* Declarations
-**********************************************************************/
+ * Declarations
+ **********************************************************************/
  
 /***********************************************************************
-* Global Variable
-**********************************************************************/
-enum ErrorID{
+ * Global Variable
+ **********************************************************************/
+enum ErrorIDCode{
     Okay = 0,
     Error_Mounting_SPIFFS = 1
 
 };
 
-enum SourceID{
+
+enum DeviceSourceID{
     id_intern_serial = 0
 };
-
-enum EventID{
-    id_intern_serial = 0
-};
-
-#ifndef _logging_compact_
-
-    static const char * const LogMessages_SourceID_Ger[] = {"mon", 
-        "tue", 
-        "wed", 
-        "thur",
-        "fri", 
-        "sat", 
-        "sun"
-    };
-
-    static const char * const LogMessages_EventID_Ger[] = {"mon", 
-        "tue", 
-        "wed", 
-        "thur",
-        "fri", 
-        "sat", 
-        "sun"
-    };
-
-    static const char * const LogMessages_ErrorID_Ger[] = {"mon", 
-        "tue", 
-        "wed", 
-        "thur",
-        "fri", 
-        "sat", 
-        "sun"
-    };
-
-#endif //_logging_compact_
-
 /***********************************************************************
  * Constant
  **********************************************************************/

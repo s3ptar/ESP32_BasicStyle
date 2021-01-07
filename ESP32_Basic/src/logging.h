@@ -1,77 +1,38 @@
 /***********************************************************************
-*! \file:                   error_codes.h
-*  \projekt:                error_codes
-*  \created on:             26.07.2020
+*! \file:                   logging.h
+*  \projekt:                globale Variablen
+*  \created on:             07.03.2019
 *  \author:                 R. Gräber
 *  \version:                0
 *  \history:                -
-*  \brief
+*  \brief                   abgeleitet von tasmota sonoff
 ***********************************************************************/
  
-#ifndef _error_codes_H_
-#define _error_codes_H_
+#ifndef _logging_H_
+#define _logging_H_
  
 /***********************************************************************
 * Includes
 **********************************************************************/
-#include "logging.h"
+#include "stdio.h"
+#include "stdint.h"
+#include "settings.h"
+#include "error_codes.h"
 #include "user_config.h"
+#include "Arduino.h"
+#include "global_var.h"
 /***********************************************************************
 * Informations
 **********************************************************************/
-//https://www.dyclassroom.com/c/c-pointers-and-two-dimensional-array
+//https://download.bastelgarage.ch/Datasheet/ESP8266_Heltec_Wifi_Kit_Schema.png
  
 /***********************************************************************
 * Declarations
 **********************************************************************/
- 
+
 /***********************************************************************
 * Global Variable
 **********************************************************************/
-enum ErrorID{
-    Okay = 0,
-    Error_Mounting_SPIFFS = 1
-
-};
-
-enum SourceID{
-    id_intern_serial = 0
-};
-
-enum EventID{
-    id_intern_serial = 0
-};
-
-#ifndef _logging_compact_
-
-    static const char * const LogMessages_SourceID_Ger[] = {"mon", 
-        "tue", 
-        "wed", 
-        "thur",
-        "fri", 
-        "sat", 
-        "sun"
-    };
-
-    static const char * const LogMessages_EventID_Ger[] = {"mon", 
-        "tue", 
-        "wed", 
-        "thur",
-        "fri", 
-        "sat", 
-        "sun"
-    };
-
-    static const char * const LogMessages_ErrorID_Ger[] = {"mon", 
-        "tue", 
-        "wed", 
-        "thur",
-        "fri", 
-        "sat", 
-        "sun"
-    };
-
-#endif //_logging_compact_
 
 /***********************************************************************
  * Constant
@@ -82,10 +43,8 @@ enum EventID{
  **********************************************************************/
  
 /***********************************************************************
- * Funtions
+ * Funtions 
  **********************************************************************/
- 
- 
- 
- 
-#endif /* _error_codes_H_ */
+void AddLogEntry(uint8_t source_id, uint16_t task_id, uint16_t error_id);
+
+#endif /* _logging_H_ */

@@ -1,29 +1,36 @@
 /***********************************************************************
-*! \file:                   error_codes.c
-*  \projekt:                error_codes
-*  \created on:             26.07.2020
+*! \file:                   main.c
+*  \projekt:                Basic ESP Style
+*  \created on:             2021.01.03
 *  \author:                 R. Gräber
 *  \version:                0
 *  \history:                -
-*  \brief                   handle error codes and deivice id´s
+*  \brief                   startup
 ***********************************************************************/
  
 /***********************************************************************
 * Includes
 ***********************************************************************/
-#include "error_codes.h"
+
+#include <stdio.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_system.h"
+#include "esp_spi_flash.h"
+
 /***********************************************************************
 * Informations
 ***********************************************************************/
 //https://www.dyclassroom.com/c/c-pointers-and-two-dimensional-array
+//https://resource.heltec.cn/download/WiFi_Kit_32/WIFI_Kit_32_pinoutDiagram_V2.pdf
 /***********************************************************************
 * Declarations
 ***********************************************************************/
- 
+
 /***********************************************************************
 * Global Variable
 ***********************************************************************/
- 
+
 /***********************************************************************
 * Constant
 ***********************************************************************/
@@ -31,12 +38,37 @@
 /***********************************************************************
 * Local Funtions
 ***********************************************************************/
- 
+
 /***********************************************************************
-*! \fn          int16_t create_fb(char *dataPtr, byte *fb)
-*  \brief       reset the Framebuffer
-*  \param       dataPtr String to scroll across
-*  \param       fb Pointer to the frame buffer array
+*! \fn          void app_main()
+*  \brief       entry point
+*  \param       none
 *  \exception   none
-*  \return      length of frame buffer
+*  \return      none
 ***********************************************************************/
+void app_main() {
+
+    printf("Hello world!\n");
+
+    /* Print chip information */
+    esp_chip_info_t chip_info;
+    esp_chip_info(&chip_info);
+    printf("This is ESP32 chip with %d CPU cores, WiFi%s%s, ",
+            chip_info.cores,
+            (chip_info.features & CHIP_FEATURE_BT) ? "/BT" : "",
+            (chip_info.features & CHIP_FEATURE_BLE) ? "/BLE" : "");
+
+    printf("silicon revision %d, ", chip_info.revision);
+
+    printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
+            (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
+
+    for (int i = 10; i >= 0; i--) {
+        printf("Restarting in %d seconds...\n", i);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
+    printf("Restarting now.\n");
+    fflush(stdout);
+    esp_restart();
+
+}
