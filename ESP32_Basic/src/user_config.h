@@ -44,11 +44,14 @@
 
 /****
  
- #ifdef _logging_level_1_  
+#ifdef _logging_level_1_  
      #undef _logging_level_1_  
 #endif //_logging_level_1_  
 
- * */
 
+#ifdef _logging_compact_ 
+     #undef _logging_compact_ 
+#endif //_logging_level_1_  
+ * */
 
 #endif /* _user_config_H_ */

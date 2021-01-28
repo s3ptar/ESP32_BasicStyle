@@ -4,7 +4,6 @@
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
-#include <error_codes.h>
 #include <ArduinoJson.h>
 #include "global_var.h"
 #include "stdint.h"
@@ -28,7 +27,10 @@ const char* password = "";
 /***********************************************************************
 * Constant
 ***********************************************************************/
- 
+time_t now;
+char strftime_buf[64];
+struct tm timeinfo;
+char msgBuffer[1024];
 /***********************************************************************
 * Local Funtions
 ***********************************************************************/
@@ -64,123 +66,25 @@ void execption_handling(uint32_t error_code){
 void setup() {
 
     //############ local Variablen #################################
+    //uint8_t Wlan_Connection_Fails = 10;
 
-    uint8_t Wlan_Connection_Fails = 10;
-
-    //############ Monting Filesystem #################################
-    // put your setup code here, to run once:
+    //start debug on serial
     Serial.begin(115200);
+    //enable Debugging
+    Serial.setDebugOutput(true);
+    log_i("booting");
+    //AddLogEntry(id_intern_serial, id_empty_source ,id_open_serial , id_no_error );
+
+    //Declatation
+    Serial.println("LoggingFormat Time:Source:Dest:Task:ErrorCode");
+    //set time zone
+    Serial.println("Set Time Zone");
+    setenv("TZ", "UTC", 1);
+    tzset();
+
     
-    Serial.println();
-    Serial.println("Booting Device...");
-    //get unique mac adddr
-    WiFi.macAddress().toCharArray(glb_MAC_address,24);
-    //build device name
-<<<<<<< Updated upstream
-    sprintf(glb_device_name, "%s_%s" ,PROJECT,glb_MAC_address);
-=======
-    //sprintf(glb_device_name, "%s_%s" ,PROJECT,glb_MAC_address);
->>>>>>> Stashed changes
-    Serial.println(glb_MAC_address);
-    Serial.println(glb_device_name);
-
-    //############ Monting Filesystem #################################
-
-    if (!SPIFFS.begin(true)) {
-        Serial.println("An Error has occurred while mounting SPIFFS");
-        execption_handling(Error_Mounting_SPIFFS);
-        return;
-    }
-    //list files in root
-    File root = SPIFFS.open("/");
-    File file = root.openNextFile();
-    while(file){
-        Serial.print("FILE: ");
-        Serial.println(file.name());
- 
-        file = root.openNextFile();
-    }
-
-    //############ Get Configuration #################################
-    File JSONConfigFile = SPIFFS.open("/config.json", "r");
-    if (!JSONConfigFile) {
-        Serial.println("Failed to open Configuration File for reading");
-        return;
-    }
-    DynamicJsonDocument ConfigDoc(256);
-    auto error = deserializeJson(ConfigDoc, JSONConfigFile);
-    if (error) {
-        Serial.print(F("deserializeJson() failed with code "));
-        Serial.println(error.c_str());
-        return;
-    } else {
-        //JsonArray array = doc.to<JsonArray>();
-        // array.remove(0);
-        //serializeJson(array, Serial);
-    }
-    JsonObject ConfigObj = ConfigDoc.as<JsonObject>(); 
-    //JsonObject obj = doc[0];
-    ssid = ConfigObj["wlan"]["ssid"];
-    password = ConfigObj["wlan"]["pass"];
-    JSONConfigFile.close();
-
-    //check if no SSID and Passphrase insert, switch to Stand AnloneStation Mode
-    if ((strlen(ssid) > 0) & (strlen(password) > 0)) {
-
-        //############ Try to connect to WLan #################################
-        WiFi.mode(WIFI_STA); //Connectto your wifi
     
-        while ((WiFi.status() != WL_CONNECTED && (Wlan_Connection_Fails > 0) )) {
-            WiFi.begin(ssid, password);
-            delay(1000);
-            Serial.println("Connecting to WiFi..");
-            Wlan_Connection_Fails--;
-        }
-        if(WiFi.status() == WL_CONNECTED){
-            Serial.println("Connected to the WiFi network");
-            WiFi.localIP().toString().toCharArray(glb_IPv4_address,24);
-        }
-    }
 
-    //if no connection here, start AP Mode
-    if (WiFi.status() != WL_CONNECTED) {
-
-        WiFi.mode(WIFI_AP); //Connectto your wifi
-        if(!WiFi.softAPConfig(IPAddress(192, 168, 5, 1), IPAddress(192, 168, 5, 1), IPAddress(255, 255, 255, 0))){
-            Serial.println("AP Config Failed");
-        }    
-        if(WiFi.softAP(glb_device_name,"password")){
-            Serial.println("");
-            Serial.println("Network " + String(glb_device_name) + " running");
-            Serial.print("AP IP address: ");
-            WiFi.softAPIP().toString().toCharArray(glb_IPv4_address,24);
-        } else {
-            Serial.println("Starting AP failed.");
-        }
-
-    }
-    //get current ip address
-    Serial.println(glb_IPv4_address);
-
-    // Route for root / web page
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/info.html", String(), false, processor);
-    });
-
-<<<<<<< Updated upstream
-    server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request){
-=======
-    server.on("/ID.html", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/ID.html", String(), false, processor);
-    });
-
-    server.on("/favicon.png", HTTP_GET, [](AsyncWebServerRequest *request){
->>>>>>> Stashed changes
-        request->send(SPIFFS, "/favicon.png", "image/png");
-    });
-
-    // Start server
-    server.begin();
 
 }
 
@@ -192,34 +96,15 @@ void setup() {
 *  \return      none
 ***********************************************************************/
 void loop() {
+
+    //time(&now);
+    // Set timezone to China Standard Time
+    //localtime_r(&now, &timeinfo);
+    //strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
     // put your main code here, to run repeatedly:
-    delay(1);
+    //Serial.println(now);
+    delay(10000);
 
 
-<<<<<<< Updated upstream
-=======
 }
 
-
-/***********************************************************************
-*! \fn          void hwdrv_write_serial(uint8_t ComPort)
-*  \brief       hardware layer for serial output
-*  \param       uint8_t ComPort - to write
-*  \exception   none
-*  \return      none
-***********************************************************************/
-void hwdrv_write_serial(uint8_t ComPort) {
-    // put your main code here, to run repeatedly:
-    switch(ComPort){
-        case 1: {
-            Serial.println();
-            break;
-        }
-
-        default :
-            Serial.println();
-
-    }
-
->>>>>>> Stashed changes
-}
