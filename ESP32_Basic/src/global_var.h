@@ -30,6 +30,11 @@
 extern char glb_MAC_address[24];
 extern char glb_IPv4_address[24];
 extern char glb_device_name[128];
+
+struct spiffs_flags_tag{
+   uint8_t spiff_mounted : 1;
+   uint8_t spiff_config_file_found : 1;
+};
 /***********************************************************************
  * Constant
  **********************************************************************/
@@ -41,6 +46,6 @@ extern char glb_device_name[128];
 /***********************************************************************
  * Funtions definded in main.c
  **********************************************************************/
-void hwdrv_write_serial(uint8_t ComPort, char* msg);
+
 
 #endif //_global_var_h_

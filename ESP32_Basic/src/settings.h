@@ -44,9 +44,7 @@
  * Funtions
  **********************************************************************/
 
-#define _logging_level_enable_                  //enable logging 
-#define _logging_level_1_                       //serial Output
-#define _logging_compact_
 
+#define config_file_full_path "/config.json"
 
 #endif /* _settings_H_ */
