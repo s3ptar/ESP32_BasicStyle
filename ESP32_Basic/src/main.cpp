@@ -7,6 +7,7 @@
 #include <ArduinoJson.h>
 #include "global_var.h"
 #include "stdint.h"
+#include "FileHandling.h"
 /***********************************************************************
 * Informations
 ***********************************************************************/
@@ -147,6 +148,7 @@ void loop() {
     // put your main code here, to run repeatedly:
     //Serial.println(now);
     delay(10000);
+    file_test();
 
 
 }
