@@ -1,1 +1,6 @@
-{"wlan" : {"ssid" : "chilihotdog", "pass" : "bxJHckMMkGqEPfY3Jf3nZnAn5FtGYwKZSkzVvbzFHNbpUZfv79GXm8afDuNu" } }
+{"wlan" : {
+    "wifi_soft_ap" : 0,
+    "ssid" : "chilihotdog", 
+    "pass" : "bxJHckMMkGqEPfY3Jf3nZnAn5FtGYwKZSkzVvbzFHNbpUZfv79GXm8afDuNu" 
+    } 
+}

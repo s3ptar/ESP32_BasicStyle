@@ -27,7 +27,7 @@
 /***********************************************************************
  * Global Variable
  **********************************************************************/
-extern char glb_MAC_address[24];
+extern uint8_t glb_MAC_address[6];
 extern char glb_IPv4_address[24];
 extern char glb_device_name[128];
 
