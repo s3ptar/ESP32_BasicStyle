@@ -45,7 +45,6 @@ enum file_handling_error_codes{
 /***********************************************************************
  * Funtions definded in main.c
  **********************************************************************/
-uint8_t check_file(String filename);
-String read_json_file_as_string(const char* file_path, String Key);
+uint8_t load_config();
 
 #endif //_filehandling_h_

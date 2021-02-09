@@ -46,5 +46,13 @@
 
 
 #define config_file_full_path "/config.json"
+#ifndef DeviceClassID
+    #define DeviceClassID "ESP"
+#else
+    #if DeviceClassID == HELTEC
+        #define DeviceName "Heltec"
+        #define _Heltec_Board_ 
+    #endif
+#endif
 
 #endif /* _settings_H_ */

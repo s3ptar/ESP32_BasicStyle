@@ -7,6 +7,7 @@
 #include "global_var.h"
 #include "stdint.h"
 #include "FileHandling.h"
+#include "heltec.h"
 /***********************************************************************
 * Informations
 ***********************************************************************/
@@ -79,31 +80,41 @@ void setup() {
     /*esp_log_level_set("*", ESP_LOG_VERBOSE);
     ESP_LOGD("EXAMPLE", "This doesn't show");
 
-    1 log_v("Verbose");
-    2 log_d("Debug");
-    3 log_i("Info");
-    4 log_w("Warning"); 
-    5 log_e("Error");*/
+    ESP_LOGE - error (lowest)
+    ESP_LOGW - warning
+    ESP_LOGI - info
+    ESP_LOGD - debug
+    ESP_LOGV - verbose (highest
+    */
     log_i("booting");
     //AddLogEntry(id_intern_serial, id_empty_source ,id_open_serial , id_no_error );
+#ifdef _Heltec_Board_
+    log_v("OLED start");
+    pinMode(25, OUTPUT);
+    digitalWrite(25,HIGH);
+    Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, false/*Serial Enable*/);
+    Heltec.display->clear();
+    Heltec.display->drawString(0, 0, "Hello World!");
+    // write the buffer to the display
+    Heltec.display->display();
+#endif
 
 
     //###################################################################################
     //try to mount file system
-    spiffs_flags.spiff_config_file_found = check_file(config_file_full_path);
+    spiffs_flags.spiff_config_file_found = load_config();
     
     WiFi.macAddress(glb_MAC_address);
     log_i("MAC %02x:%02x:%02x:%02x:%02x:%02x", glb_MAC_address[0],glb_MAC_address[1],glb_MAC_address[2],glb_MAC_address[3],glb_MAC_address[4],glb_MAC_address[5]);
     //set default name
-    sprintf(glb_device_name, "ESP32basic_%02x%02x%02x", glb_MAC_address[3],glb_MAC_address[4],glb_MAC_address[5]);
-    log_i("SSID %s", glb_device_name);
+    sprintf(glb_device_name, "%s_%02x%02x%02x", DeviceName,glb_MAC_address[3],glb_MAC_address[4],glb_MAC_address[5]);
+    log_d("SSID %s", glb_device_name);
     //start wifi
     if (spiffs_flags.spiff_config_file_found){
         //no config file, start default ap mode
         //try to read default ap name
         WiFi.softAP(glb_device_name);
     }else{
-        log_i("SSID %s", read_json_file_as_string(config_file_full_path, "ssid"));
         WiFi.softAP(glb_device_name);
     }
 
