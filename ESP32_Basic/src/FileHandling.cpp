@@ -19,12 +19,21 @@
 /***********************************************************************
 * Declarations
 ***********************************************************************/
- 
+struct wlan_properties_tags{
+   uint8_t wlan_enabled : 1;
+   uint8_t wlan_ap_modus : 1;
+   char ssid[32];
+   char passphrase[64];
+   const char*  ptr_ssid = &ssid[0];
+   const char*  ptr_passphrase = &passphrase[0];
+};
+/***********************************************************************
+* local Variable
+***********************************************************************/
+wlan_properties_tags wlan_properties;
 /***********************************************************************
 * Global Variable
 ***********************************************************************/
-extern spiffs_flags_tag spiffs_flags;
-wlan_properties_tags wlan_properties;
 /***********************************************************************
 * Constant
 ***********************************************************************/
@@ -51,18 +60,71 @@ uint8_t load_config(){
             if (configFile) {
                 log_i("opened config file");
                 // Allocate a buffer to store contents of the file.
-                deserializeJson(ConfigJSON, configFile);                
-                wlan_properties.ssid = ConfigJSON["wlan_data"]["ssid"];
-                wlan_properties.passwd = ConfigJSON["wlan_data"]["pass"];
+                deserializeJson(ConfigJSON, configFile);  
+                strlcpy(wlan_properties.ssid,        // <- destination
+                    ConfigJSON["wlan_data"]["ssid"], // <- source
+                    sizeof(wlan_properties.ssid)     // <- destination's capacity
+                );  
+                strlcpy(wlan_properties.passphrase,        // <- destination
+                    ConfigJSON["wlan_data"]["pass"], // <- source
+                    sizeof(wlan_properties.passphrase)     // <- destination's capacity
+                );
                 wlan_properties.wlan_enabled = ConfigJSON["wlan_enable"];
                 wlan_properties.wlan_ap_modus = ConfigJSON["wlan_ap"];
                 configFile.close();
             }
+        }else{
+            return_code = no_config_file;
         }
     } else {
         Serial.println("failed to mount FS");
+        return_code = spiffs_fault;
     }
     return return_code ;
 }
 
+/***********************************************************************
+*! \fn          bool get_bool_parameter(uint8_t parameter)
+*  \brief       return requestet boolean parameter
+*  \param       uint8_t parameter
+*  \exception   none
+*  \return      boolean
+***********************************************************************/
+bool get_bool_parameter(uint8_t parameter){
+    switch(parameter){
+        case wlan_ap_modus_parameter : {
+            return wlan_properties.wlan_ap_modus;
+            break;
+        } 
+        case wlan_enable_parameter : {
+            return wlan_properties.wlan_enabled;
+            break;
+        } 
+        default: {
+            return 0;
+        }
+    }
+}
 
+/***********************************************************************
+*! \fn          char* get_bool_parameter(uint8_t parameter)
+*  \brief       return requestet boolean parameter
+*  \param       uint8_t parameter
+*  \exception   none
+*  \return      char pointer
+***********************************************************************/
+const char* get_char_parameter(uint8_t parameter){
+    switch(parameter){
+        case wlan_ssid_parameter : {
+            return wlan_properties.ptr_ssid;
+            break;
+        } 
+        case wlan_passphrase_parameter : {
+            return wlan_properties.ptr_passphrase;
+            break;
+        } 
+        default: {
+            return 0;
+        }
+    }
+}

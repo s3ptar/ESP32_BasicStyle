@@ -15,6 +15,7 @@
  * Includes
  **********************************************************************/
  #include "stdint.h"
+ #include "Arduino.h"
 /***********************************************************************
  * Informations
  **********************************************************************/
@@ -32,18 +33,14 @@
 extern uint8_t glb_MAC_address[6];
 extern char glb_IPv4_address[24];
 extern char glb_device_name[glb_device_name_length];
+extern IPAddress ip;
 
 struct spiffs_flags_tag{
    uint8_t spiff_mounted : 1;
    uint8_t spiff_config_file_found : 1;
 };
 
-struct wlan_properties_tags{
-   uint8_t wlan_enabled : 1;
-   uint8_t wlan_ap_modus : 1;
-   const char*  ssid;
-   const char*  passwd;
-};
+
 /***********************************************************************
  * Constant
  **********************************************************************/
