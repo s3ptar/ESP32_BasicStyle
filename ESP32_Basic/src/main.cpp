@@ -85,9 +85,10 @@ void setup() {
     ESP_LOGV - verbose (highest
     */
     log_i("booting");
+
     //AddLogEntry(id_intern_serial, id_empty_source ,id_open_serial , id_no_error );
 #ifdef _Heltec_Board_
-    log_v("OLED start");
+    log_d("OLED start");
     pinMode(25, OUTPUT);
     digitalWrite(25,HIGH);
     Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, false/*Serial Enable*/);
