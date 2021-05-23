@@ -222,7 +222,7 @@
                 "_GNU_SOURCE",
                 "IDF_VER=\"3.40200.210118\"",
                 "ESP_PLATFORM",
-                "PLATFORMIO=50100",
+                "PLATFORMIO=50101",
                 "ARDUINO_HELTEC_WIFI_KIT_32",
                 ""
             ],

@@ -1,0 +1,25 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://localhost/config_schema.json",
+    "title": "ESP32 Configuration Schema",
+    "description": "Discription to confuguration schema",
+    "type": "object",
+    "NetworkSetup": {
+        "WLAN_Enable" : {
+            "description" : "if 0, Wlan is disable",
+            "type" : "boolean"
+        },
+        "WLAN_MODUS" : {
+            "description" : "if 0 it works in AP Mode, else try to cennect SSID",
+            "type" : "boolean"
+        },
+        "WLAN_SSID" : {
+            "description" : "Service Set Identifier",
+            "type" : "string"
+        },
+        "WLAN_PASS" : {
+            "description" : "Passphrase",
+            "type" : "string"
+        }
+    }
+  }

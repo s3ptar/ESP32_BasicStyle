@@ -1,5 +1,5 @@
 // AUTOMATICALLY GENERATED FILE. PLEASE DO NOT MODIFY IT MANUALLY
-
+//
 // PIO Unified Debugger
 //
 // Documentation: https://docs.platformio.org/page/plus/debugging.html
@@ -15,11 +15,11 @@
             "executable": "c:/data/GitHub/ESP32_BasicStyle/ESP32_ESPIF_Basic/ESP32_ESPIF_Basic/.pio/build/heltec_wifi_kit_32/firmware.elf",
             "projectEnvName": "heltec_wifi_kit_32",
             "toolchainBinDir": "C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/bin",
+            "internalConsoleOptions": "openOnSessionStart",
             "preLaunchTask": {
                 "type": "PlatformIO",
                 "task": "Pre-Debug"
-            },
-            "internalConsoleOptions": "openOnSessionStart"
+            }
         },
         {
             "type": "platformio-debug",

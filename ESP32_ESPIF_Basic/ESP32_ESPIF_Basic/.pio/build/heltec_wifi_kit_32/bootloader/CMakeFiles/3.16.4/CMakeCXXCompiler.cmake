@@ -1,7 +1,7 @@
 set(CMAKE_CXX_COMPILER "C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/bin/xtensa-esp32-elf-g++.exe")
 set(CMAKE_CXX_COMPILER_ARG1 "")
 set(CMAKE_CXX_COMPILER_ID "GNU")
-set(CMAKE_CXX_COMPILER_VERSION "8.2.0")
+set(CMAKE_CXX_COMPILER_VERSION "8.4.0")
 set(CMAKE_CXX_COMPILER_VERSION_INTERNAL "")
 set(CMAKE_CXX_COMPILER_WRAPPER "")
 set(CMAKE_CXX_STANDARD_COMPUTED_DEFAULT "14")
@@ -82,7 +82,7 @@ endif()
 
 
 
-set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/include/c++/8.2.0;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/include/c++/8.2.0/xtensa-esp32-elf;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/include/c++/8.2.0/backward;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/lib/gcc/xtensa-esp32-elf/8.2.0/include;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/lib/gcc/xtensa-esp32-elf/8.2.0/include-fixed;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/sys-include;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/include")
+set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/include/c++/8.4.0;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/include/c++/8.4.0/xtensa-esp32-elf;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/include/c++/8.4.0/backward;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/lib/gcc/xtensa-esp32-elf/8.4.0/include;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/lib/gcc/xtensa-esp32-elf/8.4.0/include-fixed;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/sys-include;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/include")
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "stdc++;m;gcc;c;nosys;c;gcc")
-set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/lib/gcc/xtensa-esp32-elf/8.2.0;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/lib/gcc;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/lib")
+set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/lib/gcc/xtensa-esp32-elf/8.4.0;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/lib/gcc;C:/Users/Besitzer/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/lib")
 set(CMAKE_CXX_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")
