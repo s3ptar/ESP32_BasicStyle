@@ -26,8 +26,8 @@
 
 char glb_IPv4_address[24];
 IPAddress ip;
-uint8_t glb_MAC_address[6];
-char glb_device_name[glb_device_name_length];
+
+
 
 /***********************************************************************
 * Constant

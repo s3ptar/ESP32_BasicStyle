@@ -1,5 +1,5 @@
 /***********************************************************************
-*! \file:                   global_var.h
+*! \file:                   configuration.h
 *  \projekt:                FT800_ESP
 *  \created on:             25.07.2020
 *  \author:                 R. Gräber
@@ -8,14 +8,16 @@
 *  \brief                   Definitionsfile for global variables
 ***********************************************************************/
  
-#ifndef _global_var_H_
-#define _global_var_H_
+#ifndef _configuration_h_
+#define _configuration_h_
  
 /***********************************************************************
  * Includes
  **********************************************************************/
  #include "stdint.h"
- #include "Arduino.h"
+ #include "SPIFFS.h"
+ #include "global_var.h"
+ #include <ArduinoJson.h>
 /***********************************************************************
  * Informations
  **********************************************************************/
@@ -24,23 +26,12 @@
 /***********************************************************************
  * Declarations
  **********************************************************************/
-
-
- 
+ #define glb_device_name_length  64
 /***********************************************************************
  * Global Variable
  **********************************************************************/
-
-extern char glb_IPv4_address[24];
-
-extern IPAddress ip;
-
-struct spiffs_flags_tag{
-   uint8_t spiff_mounted : 1;
-   uint8_t spiff_config_file_found : 1;
-};
-
-
+extern uint8_t glb_MAC_address[6];
+extern char glb_device_name[glb_device_name_length];
 /***********************************************************************
  * Constant
  **********************************************************************/
@@ -50,8 +41,8 @@ struct spiffs_flags_tag{
  **********************************************************************/
  
 /***********************************************************************
- * Funtions definded in main.c
+ * Funtions 
  **********************************************************************/
+void restore_configuration();
 
-
-#endif //_global_var_h_
+#endif //_filehandling_h_

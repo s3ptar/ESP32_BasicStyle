@@ -1,6 +1,6 @@
 /***********************************************************************
-*! \file:                   global_var.c
-*  \projekt:                global_var
+*! \file:                   configuration.c
+*  \projekt:                ESP32 Basic Style
 *  \created on:             26.07.2020
 *  \author:                 R. Gräber
 *  \version:                0
@@ -11,7 +11,10 @@
 /***********************************************************************
 * Includes
 ***********************************************************************/
-#include "FileHandling.h"
+#include "configuration.h"
+#include "WiFi.h"
+#include "settings.h"
+#include "error_codes.h"
 /***********************************************************************
 * Informations
 ***********************************************************************/
@@ -30,26 +33,70 @@ struct wlan_properties_tags{
 /***********************************************************************
 * local Variable
 ***********************************************************************/
-wlan_properties_tags wlan_properties;
+
 /***********************************************************************
 * Global Variable
 ***********************************************************************/
+
+uint8_t glb_MAC_address[6];
+char glb_device_name[glb_device_name_length];
+
 /***********************************************************************
 * Constant
 ***********************************************************************/
 
 /***********************************************************************
-*! \fn          uint8_t check_file(String filename)
-*  \brief       check if the file exist
-*               https://gist.github.com/anoochit/01cafc8c040cea8845934404da8ee014
-*  \param       String filename - full path
+*! \fn          void restore_config()
+*  \brief       read configuration from SSPIFs, config.json
+*  \param       none
 *  \exception   none
-*  \return      return codes, 0 is okay
+*  \return      none
 ***********************************************************************/
-uint8_t load_config(){
+void restore_configuration(){
 
+    //Function Variables
+    uint8_t return_code = no_error;
+    DynamicJsonDocument ConfigJSON(512);
 
+    //set dynamic (Chip propertys)
+    WiFi.macAddress(glb_MAC_address);
+    log_i("MAC %02x:%02x:%02x:%02x:%02x:%02x", glb_MAC_address[0],glb_MAC_address[1],glb_MAC_address[2],glb_MAC_address[3],glb_MAC_address[4],glb_MAC_address[5]);
+    //set default name
+    sprintf(glb_device_name, "%s%02x%02x%02x", DeviceName,glb_MAC_address[3],glb_MAC_address[4],glb_MAC_address[5]);
+
+    //Try to open SPIFFS
+    if (SPIFFS.begin()) {
+        log_i("SPIFFS mounting successfully");
+        if (SPIFFS.exists("/config.json")) {
+            //file exists, reading and loading
+            log_i("reading config file");
+            File configFile = SPIFFS.open("/config.json");
+            if (configFile) {
+                log_i("opened config file");
+                // Allocate a buffer to store contents of the file.
+                deserializeJson(ConfigJSON, configFile);  
+                strlcpy(wlan_properties.ssid,        // <- destination
+                    ConfigJSON["wlan_data"]["ssid"], // <- source
+                    sizeof(wlan_properties.ssid)     // <- destination's capacity
+                );  
+                strlcpy(wlan_properties.passphrase,        // <- destination
+                    ConfigJSON["wlan_data"]["pass"], // <- source
+                    sizeof(wlan_properties.passphrase)     // <- destination's capacity
+                );
+                wlan_properties.wlan_enabled = ConfigJSON["wlan_enable"];
+                wlan_properties.wlan_ap_modus = ConfigJSON["wlan_ap"];
+                configFile.close();
+            }
+        }else{
+            return_code = no_config_file;
+        }
+    } else {
+        Serial.println("failed to mount FS");
+        return_code = spiffs_fault;
+    }
+    return return_code ;
     
+
 }
 
 /***********************************************************************
@@ -59,21 +106,7 @@ uint8_t load_config(){
 *  \exception   none
 *  \return      boolean
 ***********************************************************************/
-bool get_bool_parameter(uint8_t parameter){
-    switch(parameter){
-        case wlan_ap_modus_parameter : {
-            return wlan_properties.wlan_ap_modus;
-            break;
-        } 
-        case wlan_enable_parameter : {
-            return wlan_properties.wlan_enabled;
-            break;
-        } 
-        default: {
-            return 0;
-        }
-    }
-}
+
 
 /***********************************************************************
 *! \fn          char* get_bool_parameter(uint8_t parameter)
@@ -82,18 +115,3 @@ bool get_bool_parameter(uint8_t parameter){
 *  \exception   none
 *  \return      char pointer
 ***********************************************************************/
-const char* get_char_parameter(uint8_t parameter){
-    switch(parameter){
-        case wlan_ssid_parameter : {
-            return wlan_properties.ptr_ssid;
-            break;
-        } 
-        case wlan_passphrase_parameter : {
-            return wlan_properties.ptr_passphrase;
-            break;
-        } 
-        default: {
-            return 0;
-        }
-    }
-}

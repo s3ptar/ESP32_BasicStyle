@@ -30,11 +30,6 @@
 /***********************************************************************
  * Global Variable
  **********************************************************************/
-enum file_handling_error_codes{
-    no_error = 0,
-    spiffs_fault = 1,
-    no_config_file = 2
-};
 
 enum bool_struct_parameter{
     wlan_ap_modus_parameter = 0,

@@ -5,6 +5,7 @@
 #include <ESPAsyncWebServer.h>
 
 #include "global_var.h"
+#include "configuration.h"
 #include "stdint.h"
 #include "FileHandling.h"
 #include "heltec.h"
@@ -94,15 +95,13 @@ void setup() {
     Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, false/*Serial Enable*/);
     
 #endif
-
-
+    //###################################################################################
+    //start Configuration Modus
+    restore_configuration();
     //###################################################################################
     //try to mount file system
+
     
-    WiFi.macAddress(glb_MAC_address);
-    log_i("MAC %02x:%02x:%02x:%02x:%02x:%02x", glb_MAC_address[0],glb_MAC_address[1],glb_MAC_address[2],glb_MAC_address[3],glb_MAC_address[4],glb_MAC_address[5]);
-    //set default name
-    sprintf(glb_device_name, "%s%02x%02x%02x", DeviceName,glb_MAC_address[3],glb_MAC_address[4],glb_MAC_address[5]);
     //###################################################################################
     //start wifi
     WiFi.disconnect(true,true);
