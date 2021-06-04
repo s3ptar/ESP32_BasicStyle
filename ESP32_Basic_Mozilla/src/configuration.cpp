@@ -21,14 +21,17 @@
 /***********************************************************************
 * Declarations
 ***********************************************************************/
+
 struct wlan_properties_tags{
    uint8_t wlan_enabled : 1;
    uint8_t wlan_ap_modus : 1;
+   uint8_t wlan_status;
    char ssid[32];
    char passphrase[64];
    const char*  ptr_ssid = &ssid[0];
    const char*  ptr_passphrase = &passphrase[0];
 };
+
 
 struct spiffs_flags_tag{
    uint8_t spiff_mounted : 1;
@@ -62,6 +65,7 @@ error_type restore_configuration(){
     //Function Variables
     uint8_t return_code = no_error;
     DynamicJsonDocument ConfigJSON(512);
+    wlan_properties.wlan_status = wlan_disable;
 
     //set dynamic (Chip propertys)
     WiFi.macAddress(glb_MAC_address);
@@ -115,6 +119,7 @@ error_type connect_wlan(){
 
     uint8_t return_code = no_error;
     uint8_t wlan_connection_fail_cnt = wlan_reconnects;
+    wlan_properties.wlan_status = wlan_ap_modus;
 
     //WiFi.disconnect(true,true);
     if(wlan_properties.wlan_enabled){
@@ -125,8 +130,10 @@ error_type connect_wlan(){
             WiFi.mode(WIFI_MODE_AP);
             log_v("WLan AP Modus");
             WiFi.softAP(wlan_properties.ssid, wlan_properties.passphrase);
+            wlan_properties.wlan_status = wlan_ap_modus;
         }else{
             //Client Modus
+            wlan_properties.wlan_status = wlan_client_modus;
             WiFi.mode(WIFI_MODE_STA);
             log_v("WLan Station Modus");
             WiFi.setHostname(glb_device_name);
@@ -138,7 +145,12 @@ error_type connect_wlan(){
                 log_v("wait for conntect");
                 wlan_connection_fail_cnt--;
                 if(!wlan_connection_fail_cnt)
-                    ESP.restart();
+                    //Switch to default WLAN AP Modus
+                    wlan_properties.wlan_status = wlan_default_ap_modus;
+                    WiFi.mode(WIFI_MODE_AP);
+                    log_v("WLan AP Modus");
+                    WiFi.softAP(glb_device_name, "1234567890");
+                    //ESP.restart();
             }
             log_v("conntecd!");
             ip = WiFi.localIP();
@@ -151,9 +163,14 @@ error_type connect_wlan(){
 
 
 /***********************************************************************
-*! \fn          char* get_bool_parameter(uint8_t parameter)
-*  \brief       return requestet boolean parameter
-*  \param       uint8_t parameter
+*! \fn          uint8_t get_wlan_status()
+*  \brief       return wlan connection status
+*  \param       none
 *  \exception   none
-*  \return      char pointer
+*  \return      return status of wlan
 ***********************************************************************/
+uint8_t get_wlan_status(){
+
+    return wlan_properties.wlan_status;
+    
+}

@@ -57,4 +57,6 @@
 
 #define wlan_reconnects 10
 
+#define _mozilla_iot_enable_
+
 #endif /* _settings_H_ */

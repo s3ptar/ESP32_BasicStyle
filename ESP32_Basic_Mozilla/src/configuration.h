@@ -28,6 +28,14 @@
  * Declarations
  **********************************************************************/
  #define glb_device_name_length  64
+
+ enum wlan_status_tags{
+    wlan_disable = 0,
+    wlan_ap_modus,
+    wlan_client_modus,
+    wlan_default_ap_modus
+};
+
 /***********************************************************************
  * Global Variable
  **********************************************************************/
@@ -45,5 +53,6 @@
  **********************************************************************/
 error_type restore_configuration();
 error_type connect_wlan();
+uint8_t get_wlan_status();
 
 #endif //_filehandling_h_
