@@ -14,11 +14,11 @@
 /***********************************************************************
  * Includes
  **********************************************************************/
- #include "stdint.h"
- #include "error_codes.h"
- #include <Arduino.h>
- #include "settings.h"
- #include "WiFi.h"
+#include "stdint.h"
+#include "error_codes.h"
+#include <Arduino.h>
+#include "settings.h"
+#include "WiFi.h"
 #include "SPIFFS.h"
 #include <ESPAsyncWebServer.h>
 #ifdef _mozilla_iot_enable_
@@ -54,5 +54,7 @@
  **********************************************************************/
 error_type restore_configuration();
 error_type connect_wlan();
+error_type config_mozilla_iot();
+void update_iot();
 
 #endif //_filehandling_h_

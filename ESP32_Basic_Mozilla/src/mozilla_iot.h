@@ -44,6 +44,7 @@
  * Funtions 
  **********************************************************************/
 error_type config_mozilla_iot();
+void update_iot();
 
 
 #endif //_filehandling_h_

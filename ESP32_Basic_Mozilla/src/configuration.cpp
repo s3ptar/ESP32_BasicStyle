@@ -139,18 +139,20 @@ error_type connect_wlan(){
             WiFi.setHostname(glb_device_name);
             log_v("DNS %s", glb_device_name);
             WiFi.begin(wlan_properties.ssid, wlan_properties.passphrase); 
+            log_v("wait for conntect");
             vTaskDelay(2000); 
             while (!WiFi.isConnected()) {
                 vTaskDelay(2000);
-                log_v("wait for conntect");
+                log_v("Connection Trys %d", wlan_connection_fail_cnt);
                 wlan_connection_fail_cnt--;
-                if(!wlan_connection_fail_cnt)
+                if(!wlan_connection_fail_cnt){
                     //Switch to default WLAN AP Modus if no connect to SSID
                     return_code = er_wlan_default_ap;
                     WiFi.mode(WIFI_MODE_AP);
-                    log_v("WLan AP Modus");
+                    log_v("WLan Default AP Modus");
                     WiFi.softAP(glb_device_name, "1234567890");
                     //ESP.restart();
+                }
             }
             log_v("conntecd!");
             ip = WiFi.localIP();

@@ -17,6 +17,9 @@
 * Informations
 ***********************************************************************/
 //https://www.dyclassroom.com/c/c-pointers-and-two-dimensional-array
+//https://iot.mozilla.org/gateway/
+//https://iot.mozilla.org/wot/
+//https://discourse.mozilla.org/t/webthing-arduino-thingproperty-unit/43918/9
 /***********************************************************************
 * Declarations
 ***********************************************************************/
@@ -26,14 +29,11 @@
 
 WebThingAdapter *adapter;
 
-const char *WLanRSSI[] = {"WLan Signal Strengh", "RSSI", nullptr};
-ThingDevice lamp("urn:dev:ops:my-lamp-1234", "My Lamp", WLanRSSI);
+const char *WLanRSSI[] = {"WLan Signal Strength", "RSSI", nullptr};
+ThingDevice IoTDev("urn:dev:ops:my-lamp-1234", "My Lamp", WLanRSSI);
 
-ThingProperty lampOn("on", "Whether the lamp is turned on", BOOLEAN,
-                     "OnOffProperty");
-
-
-bool lastOn = true;
+ThingProperty SignalStrength("id_rssi", "SignalStrength of WLan signal", INTEGER,
+                    "RSSIProperty");
 
 
 #endif // _mozilla_iot_enable_
@@ -57,24 +57,54 @@ bool lastOn = true;
 *  \exception   none
 *  \return      return status of wlan
 ***********************************************************************/
-error_type config_mozilla_iot(const char* DNSName){
+error_type config_mozilla_iot(){
 
 //Disable code if no switch set
 #ifdef _mozilla_iot_enable_
     
     char thingsID[255];
-    sprintf(thingsID,"urn:dev:ops:%s", DNSName);
+    sprintf(thingsID,"urn:dev:ops:%s", WiFi.getHostname());
     //Change ThingsID
-    lamp.id = thingsID;
+    IoTDev.id = thingsID;
     error_type return_code = er_no_error;
     //Set Name und IP as new Apater
+    log_d("Start WebThingAdapter");
     adapter = new WebThingAdapter(WiFi.getHostname(), WiFi.localIP());
 
-    lamp.description = "A web connected lamp";
+    log_d("Config Propertys");
+    IoTDev.description = "Basic ESP, sending RSSI";
+
+    SignalStrength.title = "WLanRSSi";
+    SignalStrength.unit = "dB";
+    IoTDev.addProperty(&SignalStrength);
+
+    adapter->addDevice(&IoTDev);
+    adapter->begin();
+
+    // set initial values
+    ThingPropertyValue initialRSSI = {.integer = WiFi.RSSI()};
+    SignalStrength.setValue(initialRSSI);
+    (void)SignalStrength.changedValueOrNull();
 
 
     return return_code;
 
 #endif
+
+}
+
+/***********************************************************************
+*! \fn          uint8_t get_wlan_status()
+*  \brief       return wlan connection status
+*  \param       none
+*  \exception   none
+*  \return      return status of wlan
+***********************************************************************/
+void update_iot(){
+
+    ThingDataValue value = {.integer = WiFi.RSSI()};
+    SignalStrength.setValue(value);
+
+    adapter->update();
 
 }

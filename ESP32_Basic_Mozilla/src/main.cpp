@@ -1,11 +1,9 @@
 #include <Arduino.h>
 #include "settings.h"
-#include <WiFi.h>
-#include <ESPAsyncWebServer.h>
-
 #include "configuration.h"
 #include "stdint.h"
 #include "heltec.h"
+#include "mozilla_iot.h"
 /***********************************************************************
 * Informations
 ***********************************************************************/
@@ -96,8 +94,11 @@ void setup() {
     //###################################################################################
     //connect wlan
     vTaskDelay(2000); 
-    connect_wlan();    
+    connect_wlan();
+    vTaskDelay(2000);    
     //###################################################################################
+    //Setup IOt
+    config_mozilla_iot();
 
 }
 
@@ -116,7 +117,7 @@ void loop() {
     //strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
     // put your main code here, to run repeatedly:
     //Serial.println(now);
-    delay(10000);
+    update_iot();
 
 
 }

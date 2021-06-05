@@ -17,6 +17,12 @@
 #include "stdio.h"
 #include "stdint.h"
 #include "config.h"
+#include <ESPAsyncWebServer.h>
+#ifdef _mozilla_iot_enable_
+    #define ARDUINOJSON_USE_LONG_LONG 1
+    #include <Thing.h>
+    #include <WebThingAdapter.h>
+#endif
 /***********************************************************************
 * Informations
 **********************************************************************/
