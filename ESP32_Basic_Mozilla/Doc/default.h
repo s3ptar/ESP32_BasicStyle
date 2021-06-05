@@ -1,32 +1,24 @@
 /***********************************************************************
-*! \file:                   configuration.h
+*! \file:                   mozilla_iot.h
 *  \projekt:                FT800_ESP
-*  \created on:             25.07.2020
+*  \created on:             04.06.2021
 *  \author:                 R. Gräber
 *  \version:                0
 *  \history:                -
 *  \brief                   Definitionsfile for global variables
 ***********************************************************************/
  
-#ifndef _configuration_h_
-#define _configuration_h_
+#ifndef _mozilla_iot_h_
+#define _mozilla_iot_h_
  
 /***********************************************************************
  * Includes
  **********************************************************************/
  #include "stdint.h"
  #include "error_codes.h"
+ #include <ArduinoJson.h>
  #include <Arduino.h>
  #include "settings.h"
- #include "WiFi.h"
-#include "SPIFFS.h"
-#include <ESPAsyncWebServer.h>
-#ifdef _mozilla_iot_enable_
-    #define ARDUINOJSON_USE_LONG_LONG 1
-    #include <Thing.h>
-    #include <WebThingAdapter.h>
-#endif
-#include <ArduinoJson.h>
 /***********************************************************************
  * Informations
  **********************************************************************/
@@ -35,7 +27,7 @@
 /***********************************************************************
  * Declarations
  **********************************************************************/
- #define glb_device_name_length  64
+
 
 /***********************************************************************
  * Global Variable
@@ -52,7 +44,6 @@
 /***********************************************************************
  * Funtions 
  **********************************************************************/
-error_type restore_configuration();
-error_type connect_wlan();
+
 
 #endif //_filehandling_h_

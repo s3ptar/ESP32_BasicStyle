@@ -21,5 +21,11 @@
             "description" : "Passphrase",
             "type" : "string"
         }
+    },
+    "IOT" : {
+        "MozillaIOT_Enable" : {
+            "description" : "if 0, Mozilla IOT Connection is enable",
+            "type" : "boolean"
+        }
     }
   }

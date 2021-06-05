@@ -12,12 +12,12 @@
 * Includes
 ***********************************************************************/
 #include "configuration.h"
-#include "WiFi.h"
-#include "SPIFFS.h"
+#include "mozilla_iot.h"
 /***********************************************************************
 * Informations
 ***********************************************************************/
 //https://www.dyclassroom.com/c/c-pointers-and-two-dimensional-array
+//https://iot.mozilla.org/wot/#id-member
 /***********************************************************************
 * Declarations
 ***********************************************************************/
@@ -40,6 +40,7 @@ struct spiffs_flags_tag{
 /***********************************************************************
 * local Variable
 ***********************************************************************/
+bool mozilla_iot_enable = 0;
 spiffs_flags_tag spiffs_flags;
 IPAddress ip;
 uint8_t glb_MAC_address[6];
@@ -62,10 +63,9 @@ wlan_properties_tags wlan_properties;
 ***********************************************************************/
 error_type restore_configuration(){
 
-    //Function Variables
-    uint8_t return_code = no_error;
+    //****************  localFunction Variables ***********************
+    uint8_t return_code = er_no_error;
     DynamicJsonDocument ConfigJSON(512);
-    wlan_properties.wlan_status = wlan_disable;
 
     //set dynamic (Chip propertys)
     WiFi.macAddress(glb_MAC_address);
@@ -94,14 +94,15 @@ error_type restore_configuration(){
                 );
                 wlan_properties.wlan_enabled = ConfigJSON["wlan_enable"];
                 wlan_properties.wlan_ap_modus = ConfigJSON["wlan_ap"];
+                mozilla_iot_enable = ConfigJSON["MozillaIOT_Enablep"];
                 configFile.close();
             }
         }else{
-            return_code = no_config_file;
+            return_code = er_no_config_file;
         }
     } else {
         log_e("failed to mount FS");
-        return_code = spiffs_fault;
+        return_code = er_spiffs_fault;
     }
     return return_code ;
     
@@ -117,23 +118,22 @@ error_type restore_configuration(){
 ***********************************************************************/
 error_type connect_wlan(){
 
-    uint8_t return_code = no_error;
+    error_type return_code = er_wlan_disable;
     uint8_t wlan_connection_fail_cnt = wlan_reconnects;
-    wlan_properties.wlan_status = wlan_ap_modus;
 
     //WiFi.disconnect(true,true);
     if(wlan_properties.wlan_enabled){
         log_v("WLan On");
-        //check modus 0 = WLan Client, 1 = AccessPoint Modus Modus
+        //+++++++++++++ check modus 0 = WLan Client, 1 = AccessPoint Modus Modus ++++++
         if(wlan_properties.wlan_ap_modus){
             //AP Modus
             WiFi.mode(WIFI_MODE_AP);
+            return_code = er_wlan_ap_mode;
             log_v("WLan AP Modus");
             WiFi.softAP(wlan_properties.ssid, wlan_properties.passphrase);
-            wlan_properties.wlan_status = wlan_ap_modus;
         }else{
             //Client Modus
-            wlan_properties.wlan_status = wlan_client_modus;
+            return_code = er_wlan_client_mode;
             WiFi.mode(WIFI_MODE_STA);
             log_v("WLan Station Modus");
             WiFi.setHostname(glb_device_name);
@@ -145,8 +145,8 @@ error_type connect_wlan(){
                 log_v("wait for conntect");
                 wlan_connection_fail_cnt--;
                 if(!wlan_connection_fail_cnt)
-                    //Switch to default WLAN AP Modus
-                    wlan_properties.wlan_status = wlan_default_ap_modus;
+                    //Switch to default WLAN AP Modus if no connect to SSID
+                    return_code = er_wlan_default_ap;
                     WiFi.mode(WIFI_MODE_AP);
                     log_v("WLan AP Modus");
                     WiFi.softAP(glb_device_name, "1234567890");
@@ -169,8 +169,3 @@ error_type connect_wlan(){
 *  \exception   none
 *  \return      return status of wlan
 ***********************************************************************/
-uint8_t get_wlan_status(){
-
-    return wlan_properties.wlan_status;
-    
-}

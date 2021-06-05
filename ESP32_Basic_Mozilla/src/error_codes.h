@@ -23,15 +23,20 @@
 /***********************************************************************
  * Declarations
  **********************************************************************/
-typedef uint8_t error_type;
+typedef uint16_t error_type;
  
 /***********************************************************************
  * Global Variable
  **********************************************************************/
 enum error_codes{
-    no_error = 0,
-    spiffs_fault = 1,
-    no_config_file = 2
+    er_no_error = 0x0000,
+    er_spiffs_fault = 0x0010,
+    er_no_config_file = 0x0011,
+    er_wlan_disable = 0x0020,
+    er_wlan_ap_mode,
+    er_wlan_client_mode,
+    er_wlan_default_ap
+
 };
 
 /***********************************************************************

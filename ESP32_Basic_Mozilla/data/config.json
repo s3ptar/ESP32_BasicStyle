@@ -4,5 +4,6 @@
     "wlan_data": {      
         "ssid" : "chilihotdog", 
         "pass" : "bxJHckMMkGqEPfY3Jf3nZnAn5FtGYwKZSkzVvbzFHNbpUZfv79GXm8afDuNu" 
-    }
-  }
+    },
+    "MozillaIOT_Enable" :1
+}

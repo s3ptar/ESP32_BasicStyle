@@ -98,64 +98,6 @@ void setup() {
     vTaskDelay(2000); 
     connect_wlan();    
     //###################################################################################
-    //start wifi
-    /*WiFi.disconnect(true,true);
-    if (load_config()){
-        //no config file, start default ap mode
-        log_v("wlan default ap");
-        WiFi.softAP(glb_device_name);
-    }else{
-        //config found, ceck if wlan sould be enable
-        if(get_bool_parameter(wlan_enable_parameter)){
-            log_v("WLan On");
-            //check modus 0 = WLan Client, 1 = AccessPoint Modus Modus
-            if(get_bool_parameter(wlan_ap_modus_parameter)){
-                //AP Modus
-                WiFi.softAP(get_char_parameter(wlan_ssid_parameter), get_char_parameter(wlan_passphrase_parameter));
-            }else{
-                //Client Modus
-                log_v("Start Station");
-                WiFi.setHostname(glb_device_name);
-                //log_v("DNS %s", glb_device_name);
-                WiFi.begin(get_char_parameter(wlan_ssid_parameter), get_char_parameter(wlan_passphrase_parameter));      
-                while (!WiFi.isConnected()) {
-                    vTaskDelay(2000);
-                    log_v("wait for conntect");
-                    wlan_connection_fail_cnt--;
-                    if(!wlan_connection_fail_cnt)
-                        ESP.restart();
-                }
-                log_v("conntecd!");
-                ip = WiFi.localIP();
-                #ifdef _Heltec_Board_
-                    Heltec.display->clear();
-                    sprintf(msgBuffer, "IP %u.%u.%u.%u", ip[0],ip[1],ip[2],ip[3]);
-                    Heltec.display->drawString(0, 0, msgBuffer);
-                    sprintf(msgBuffer, "DNS %s", glb_device_name);
-                    Heltec.display->drawString(0, 10, msgBuffer);
-                    // write the buffer to the display
-                    Heltec.display->display();
-                #endif
-
-            }
-        }
-        
-    }*/
-
-    
-
-    //try to read ssid and password from file and Modus
-    
-
-    //###################################################################################
-
-    //Declatation
-    //set time zone
-
-
-    
-    
-
 
 }
 
