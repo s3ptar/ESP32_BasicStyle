@@ -20,6 +20,7 @@
 //https://iot.mozilla.org/gateway/
 //https://iot.mozilla.org/wot/
 //https://discourse.mozilla.org/t/webthing-arduino-thingproperty-unit/43918/9
+//https://discourse.mozilla.org/t/multilevelsensor-and-onoffswitch/55939/3
 /***********************************************************************
 * Declarations
 ***********************************************************************/
@@ -29,11 +30,10 @@
 
 WebThingAdapter *adapter;
 
-const char *WLanRSSI[] = {"WLan Signal Strength", "RSSI", nullptr};
-ThingDevice IoTDev("urn:dev:ops:my-lamp-1234", "My Lamp", WLanRSSI);
-
+const char *deviceTypes[] = {"MultiLevelSensor", nullptr};
+ThingDevice IoTDev("RSSI Sensor", "RSSISensor", deviceTypes);
 ThingProperty SignalStrength("id_rssi", "SignalStrength of WLan signal", INTEGER,
-                    "RSSIProperty");
+                    "LevelProperty");
 
 
 #endif // _mozilla_iot_enable_
@@ -74,8 +74,10 @@ error_type config_mozilla_iot(){
     log_d("Config Propertys");
     IoTDev.description = "Basic ESP, sending RSSI";
 
-    SignalStrength.title = "WLanRSSi";
+    SignalStrength.title = "deviceTypes";
     SignalStrength.unit = "dB";
+    SignalStrength.maximum = 100;
+    SignalStrength.minimum = 0;
     IoTDev.addProperty(&SignalStrength);
 
     adapter->addDevice(&IoTDev);
@@ -102,9 +104,10 @@ error_type config_mozilla_iot(){
 ***********************************************************************/
 void update_iot(){
 
-    ThingDataValue value = {.integer = WiFi.RSSI()};
-    SignalStrength.setValue(value);
 
+    ThingPropertyValue MVal;
+    MVal.integer = WiFi.RSSI();
+    SignalStrength.setValue(MVal);
     adapter->update();
 
 }
