@@ -1,6 +1,7 @@
 {
     "wlan_enable": 1,
     "wlan_ap" : 0,
+    "wlan_ota" : 1,
     "wlan_data": {      
         "ssid" : "chilihotdog", 
         "pass" : "bxJHckMMkGqEPfY3Jf3nZnAn5FtGYwKZSkzVvbzFHNbpUZfv79GXm8afDuNu" 

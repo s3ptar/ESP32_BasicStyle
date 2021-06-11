@@ -20,6 +20,21 @@
         "WLAN_PASS" : {
             "description" : "Passphrase",
             "type" : "string"
+        },
+        "WLAN_OTA" : {
+            "description" : "Enable the OTA Upload",
+            "object" : "object",
+            "OTA":{
+                "Enable" : {
+                    "description" : "Enable OTA Feature",
+                    "type" : "boolean"
+                },
+                "Port" : {
+                    "description" : "Uploadport",
+                    "type" : "number"
+                }
+            }
+
         }
     },
     "IOT" : {

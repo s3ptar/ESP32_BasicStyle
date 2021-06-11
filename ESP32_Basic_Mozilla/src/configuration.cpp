@@ -25,6 +25,7 @@
 struct wlan_properties_tags{
    uint8_t wlan_enabled : 1;
    uint8_t wlan_ap_modus : 1;
+   uint8_t wlan_OTA : 1;
    uint8_t wlan_status;
    char ssid[32];
    char passphrase[64];
@@ -93,6 +94,7 @@ error_type restore_configuration(){
                     sizeof(wlan_properties.passphrase)     // <- destination's capacity
                 );
                 wlan_properties.wlan_enabled = ConfigJSON["wlan_enable"];
+                wlan_properties.wlan_OTA = ConfigJSON["wlan_ota"];
                 wlan_properties.wlan_ap_modus = ConfigJSON["wlan_ap"];
                 mozilla_iot_enable = ConfigJSON["MozillaIOT_Enablep"];
                 configFile.close();
