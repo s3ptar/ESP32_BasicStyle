@@ -41,6 +41,10 @@
         "MozillaIOT_Enable" : {
             "description" : "if 0, Mozilla IOT Connection is enable",
             "type" : "boolean"
+        },
+        "MozillaIOT_Port" : {
+            "description" : "Port from IoT WebThings, default 8080",
+            "type" : "number"
         }
     }
   }

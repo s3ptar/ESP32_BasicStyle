@@ -6,5 +6,6 @@
         "ssid" : "chilihotdog", 
         "pass" : "bxJHckMMkGqEPfY3Jf3nZnAn5FtGYwKZSkzVvbzFHNbpUZfv79GXm8afDuNu" 
     },
-    "MozillaIOT_Enable" :1
+    "MozillaIOT_Enable" :1,
+    "MozillaIOT_Port": 8080
 }

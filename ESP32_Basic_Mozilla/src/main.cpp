@@ -97,10 +97,19 @@ void setup() {
     connect_wlan();
     vTaskDelay(2000);    
     //###################################################################################
-    //Setup IOt
+    //Setup IOT
     config_mozilla_iot();
 
+    // Route for root / web page
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(200, "text/plain", "Hello World");
+    });
+ 
+    server.begin();                  //Start server
+
 }
+
+
 
 /***********************************************************************
 *! \fn          void loop()

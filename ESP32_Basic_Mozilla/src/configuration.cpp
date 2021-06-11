@@ -18,6 +18,7 @@
 ***********************************************************************/
 //https://www.dyclassroom.com/c/c-pointers-and-two-dimensional-array
 //https://iot.mozilla.org/wot/#id-member
+//https://github.com/espressif/arduino-esp32/tree/master/libraries/ArduinoOTA/examples
 /***********************************************************************
 * Declarations
 ***********************************************************************/
@@ -41,8 +42,7 @@ struct spiffs_flags_tag{
 /***********************************************************************
 * local Variable
 ***********************************************************************/
-bool mozilla_iot_enable = 0;
-spiffs_flags_tag spiffs_flags;
+
 IPAddress ip;
 uint8_t glb_MAC_address[6];
 char glb_device_name[glb_device_name_length];
@@ -96,7 +96,6 @@ error_type restore_configuration(){
                 wlan_properties.wlan_enabled = ConfigJSON["wlan_enable"];
                 wlan_properties.wlan_OTA = ConfigJSON["wlan_ota"];
                 wlan_properties.wlan_ap_modus = ConfigJSON["wlan_ap"];
-                mozilla_iot_enable = ConfigJSON["MozillaIOT_Enablep"];
                 configFile.close();
             }
         }else{

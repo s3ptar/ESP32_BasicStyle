@@ -40,7 +40,8 @@ ThingProperty SignalStrength("id_rssi", "SignalStrength of WLan signal", INTEGER
 /***********************************************************************
 * local Variable
 ***********************************************************************/
-
+bool mozilla_iot_enable = 0;
+uint16_t mozilla_iot_tcp_port = 8080;
 /***********************************************************************
 * Global Variable
 ***********************************************************************/
@@ -61,15 +62,44 @@ error_type config_mozilla_iot(){
 
 //Disable code if no switch set
 #ifdef _mozilla_iot_enable_
-    
+
+    //**********************local variables*******************
     char thingsID[255];
+    IoTDev.id = thingsID;
+    uint8_t return_code = er_no_error;
+    DynamicJsonDocument ConfigJSON(512);
+    //*************** read configuration from config ******
+
+    //Try to open SPIFFS
+    if (SPIFFS.begin()) {
+        log_i("SPIFFS mounting successfully");
+        if (SPIFFS.exists("/config.json")) {
+            //file exists, reading and loading
+            log_i("reading config file");
+            File configFile = SPIFFS.open("/config.json");
+            if (configFile) {
+                log_i("opened config file");
+                // Allocate a buffer to store contents of the file.
+                deserializeJson(ConfigJSON, configFile);  
+                mozilla_iot_enable = ConfigJSON["MozillaIOT_Enablep"];
+                mozilla_iot_tcp_port = ConfigJSON["MozillaIOT_Port"];
+                Serial.println(mozilla_iot_tcp_port);
+                configFile.close();
+            }
+        }else{
+            return_code = er_no_config_file;
+        }
+    } else {
+        log_e("failed to mount FS");
+        return_code = er_spiffs_fault;
+    }
+
     sprintf(thingsID,"urn:dev:ops:%s", WiFi.getHostname());
     //Change ThingsID
-    IoTDev.id = thingsID;
-    error_type return_code = er_no_error;
+    
     //Set Name und IP as new Apater
     log_d("Start WebThingAdapter");
-    adapter = new WebThingAdapter(WiFi.getHostname(), WiFi.localIP());
+    adapter = new WebThingAdapter(WiFi.getHostname(), WiFi.localIP(),mozilla_iot_tcp_port);
 
     log_d("Config Propertys");
     IoTDev.description = "Basic ESP, sending RSSI";
