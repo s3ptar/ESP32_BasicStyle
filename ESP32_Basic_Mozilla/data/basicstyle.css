@@ -1,0 +1,190 @@
+/****************************** global declaration **********************************************/
+*, *:before, *:after {
+    -moz-box-sizing:border-box;
+       -webkit-box-sizing:border-box;
+       box-sizing:border-box;
+       margin:0;
+       padding:0;
+}
+
+
+/****************************** Header declaration **********************************************/
+.class_header{
+   /*background:#232729;*/
+   height:70px;  
+   overflow:hidden;
+   color:#ffffff;
+     top:0px;
+   position:fixed !important;
+   position:absolute;
+   width:100vw;
+   background: linear-gradient(to bottom, #000000 0%, #000099 100%);
+}
+
+.class_header img{
+   float:left;
+     position:relative;  
+   max-height:70px;
+}
+
+.class_header_caption{
+   float:left;
+     position:relative;  
+   padding-left:5px;
+   padding-top:2px;
+}
+
+.class_header_caption a{
+   text-decoration: none;
+   color:#ffffff;
+   display: block;
+   border: none;
+   display:inline;
+}
+
+.class_header_caption h3 a:not(:last-child):after{
+   content:"  -  "
+}
+
+.class_header_information{
+   float:right;
+     position:relative; 
+   font-size: 12px;
+   padding-right:5px;
+   padding-top:10px;
+   color:#ffffff;
+}
+
+
+/****************************** sidebars bar declaration **********************************************/
+
+.class_sidebar{
+   top:70px;
+   height:100vh;
+   overflow:hidden;
+   color:#ffffff;
+   position:fixed !important;
+   position:absolute;
+   width:200px;
+   transition: 0.5s;
+   background: linear-gradient(to bottom, #000099 0%, #f2f2f2 100%);
+   display: block;
+   text-decoration: none;
+   
+}
+
+
+.NavigationBarClose {
+       display: block;
+       position: absolute;
+       top: 0px;
+       right: 20px;
+       font-size: 36px;
+   color:#ffffff;
+   text-decoration: none;
+  
+}
+.NavigationBarOpen {
+       position: absolute;
+       top: 0px;
+       left: 0px;
+       font-size: 20px;
+       color: #ffffff;
+       transition: 0.5s;
+   display: none;
+   text-decoration: none;
+}
+
+/****************************** navigation bar declaration **********************************************/
+
+.class_navigation_bar{
+   left:0px;
+   padding-left:20px;
+}
+
+.active {
+   background-color: green;
+   color: green;
+}
+
+.navbar a {
+   display:block; 
+   color:#ffffff;
+   text-decoration: none;
+   text-transform: uppercase;
+   letter-spacing: 1px;
+   position: relative;
+}
+
+/* Style the sidenav links and the dropdown button */
+.dropdown-btn {
+   text-decoration: none;
+   display: block;
+   border: none;
+   width: 100%;
+   text-align: left;
+   cursor: pointer;
+   outline: none;
+}
+
+/* On mouse-over */
+.dropdown-btn:hover, .navbar a:hover {
+   color: #00ffff;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+   display: none;
+   padding-left: 10px;
+}
+
+
+/****************************** alarm bar declaration **********************************************/
+
+
+/****************************** content decalaration **********************************************/
+
+.class_content{
+   background:#e6e6ff;
+   color:#000000;
+   margin-left: 200px;
+   width:100vw; 
+   top:70px;
+   position:fixed !important;
+   position:absolute;
+   height:100vh;
+   overflow:hidden;
+   transition: 0.5s;
+}
+
+
+
+
+/****************************** medias **********************************************/
+@media only screen and (max-width:1024px) {
+   /* For mobile tablets: */
+   .class_alarm_bar {
+       width:20px;
+   }
+   
+}
+
+
+@media only screen and (max-width:620px) {
+   /* For mobile phones: */
+   .class_navigation_bar {
+       width:20px;
+   }
+   .class_content{
+       margin-left:20px;
+   }
+   .menuCloseBtn {
+           display: none;
+       }
+   .menuOpenBtn {
+           display: block;
+       }
+   
+}
+
+

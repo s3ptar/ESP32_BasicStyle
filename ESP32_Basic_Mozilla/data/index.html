@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <title>Basic Layout</title>
+	  <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+	  <link rel="stylesheet" type="text/css" href="basicstyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src = "javascript.js"></script>
+    
+    <!-- https://www.w3schools.com/howto/howto_css_fixed_sidebar.asp >
+    <!-- https://jsfiddle.net/TheSleepingEight/ucfaacsk/7/>
+
+    <!--<script src="jquery.min.js" type="text/javascript">-->
+    
+
+    <script type="text/javascript">
+        /***********************************************************************
+        *! \fn          window.onload
+        *  \brief       set intervall timer after page load
+        *  \param       dataPtr String to scroll across
+        *  \param       fb Pointer to the frame buffer array
+        *  \exception   none
+        *  \return      length of frame buffer
+        ***********************************************************************/
+        window.onload = function() {        
+        		//set interval function
+            setInterval(ShowDateAndTime,1000);
+            //build menu
+            
+        }
+    </script>
+
+    <style type="text/css">
+       /****************************** global declaration **********************************************/
+        *, *:before, *:after {
+            -moz-box-sizing:border-box;
+               -webkit-box-sizing:border-box;
+               box-sizing:border-box;
+               margin:0;
+               padding:0;
+        }
+        
+        
+        /****************************** Header declaration **********************************************/
+        .class_header{
+           /*background:#232729;*/
+           height:70px;  
+           overflow:hidden;
+           color:#ffffff;
+             top:0px;
+           position:fixed !important;
+           position:absolute;
+           width:100vw;
+           background: linear-gradient(to bottom, #000000 0%, #000099 100%);
+        }
+        
+        .class_header img{
+           float:left;
+             position:relative;  
+           max-height:70px;
+        }
+        
+        .class_header_caption{
+           float:left;
+             position:relative;  
+           padding-left:5px;
+           padding-top:2px;
+        }
+        
+        .class_header_caption a{
+           text-decoration: none;
+           color:#ffffff;
+           display: block;
+           border: none;
+           display:inline;
+        }
+        
+        .class_header_caption h3 a:not(:last-child):after{
+           content:"  -  "
+        }
+        
+        .class_header_information{
+           float:right;
+             position:relative; 
+           font-size: 12px;
+           padding-right:5px;
+           padding-top:10px;
+           color:#ffffff;
+        }
+        
+        
+        /****************************** sidebars bar declaration **********************************************/
+        
+        .class_sidebar{
+           top:70px;
+           height:100vh;
+           overflow:hidden;
+           color:#ffffff;
+           position:fixed !important;
+           position:absolute;
+           width:200px;
+           transition: 0.5s;
+           background: linear-gradient(to bottom, #000099 0%, #f2f2f2 100%);
+           display: block;
+           text-decoration: none;
+           
+        }
+        
+        
+        .NavigationBarClose {
+               display: block;
+               position: absolute;
+               top: 0px;
+               right: 20px;
+               font-size: 36px;
+           color:#ffffff;
+           text-decoration: none;
+          
+        }
+        .NavigationBarOpen {
+               position: absolute;
+               top: 0px;
+               left: 0px;
+               font-size: 20px;
+               color: #ffffff;
+               transition: 0.5s;
+           display: none;
+           text-decoration: none;
+        }
+        
+        /****************************** navigation bar declaration **********************************************/
+        
+        .class_navigation_bar{
+           left:0px;
+           padding-left:20px;
+        }
+        
+        .active {
+           background-color: green;
+           color: green;
+        }
+        
+        .navbar a {
+           display:block; 
+           color:#ffffff;
+           text-decoration: none;
+           text-transform: uppercase;
+           letter-spacing: 1px;
+           position: relative;
+        }
+        
+        /* Style the sidenav links and the dropdown button */
+        .dropdown-btn {
+           text-decoration: none;
+           display: block;
+           border: none;
+           width: 100%;
+           text-align: left;
+           cursor: pointer;
+           outline: none;
+        }
+        
+        /* On mouse-over */
+        .dropdown-btn:hover, .navbar a:hover {
+           color: #00ffff;
+        }
+        
+        /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+        .dropdown-container {
+           display: none;
+           padding-left: 10px;
+        }
+        
+        
+        /****************************** alarm bar declaration **********************************************/
+        
+        
+        /****************************** content decalaration **********************************************/
+        
+        .class_content{
+           background:#e6e6ff;
+           color:#000000;
+           margin-left: 200px;
+           width:100vw; 
+           top:70px;
+           position:fixed !important;
+           position:absolute;
+           height:100vh;
+           overflow:hidden;
+           transition: 0.5s;
+        }
+        
+        
+        
+        
+        /****************************** medias **********************************************/
+        @media only screen and (max-width:1024px) {
+           /* For mobile tablets: */
+           .class_alarm_bar {
+               width:20px;
+           }
+           
+        }
+        
+        
+        @media only screen and (max-width:620px) {
+           /* For mobile phones: */
+           .class_navigation_bar {
+               width:20px;
+           }
+           .class_content{
+               margin-left:20px;
+           }
+           .menuCloseBtn {
+                   display: none;
+               }
+           .menuOpenBtn {
+                   display: block;
+               }
+           
+        }
+        
+        
+        
+	</style>
+	
+</head>
+<body>
+
+    <!--------------------------------------------- Header declaration ------------------------------------------------------------------->
+    <div id="id_header" class="class_header">
+    
+        <div class="class_header_logo">
+            <img src="http://drive.google.com/uc?export=view&id=111mSJVODWwUDvmzbes90FwRlJGsDBBkA" alt="Customlogo" id="id_navigation_sidebar_link" onclick=" sidebar_handle(this.id,2)">
+        </div>
+        
+        <div class="class_header_caption">
+            <h1 id="sitename">
+                Projekt Discription
+            </h1>
+            <h3 id="id_navigation_tree">
+                <a href="#" id="id_navigation_sidebar_home" > Home</a>
+                <a href="#" id="id_navigation_tree_Sub" >Sub</a>
+            </h3>
+        </div>
+        
+        <div class="class_header_information">
+            <p id="id_header_day_and_time"> Wochentag + Zeit </p>
+            <p id="id_header_date"> Datum </p>
+            <p id="id_header_user"> user </p>        
+            <p id="id_header_device"> DeviceID </p>    
+        </div>
+    
+    </div>
+    
+    
+    <!------------------------------------------------------------------------------------------>
+    <!-- http://w3schools-fa.ir/howto/tryitb95b.html?filename=tryhow_js_sidenav_dropdown -->
+    
+    <div id="id_sidebar">
+        
+        <div id="id_navigation_sidebar" class="class_navigation_bar class_sidebar">
+            <!------------------------- build navigation tree ----------------------------------------------->
+            <h1 class="menuLbl">Menu</h1>
+            <a href="javascript:closeMenu()" class="NavigationBarClose"> x </a>
+            <a href="javascript:openMenu()" id="id_menu_btn_open" class="NavigationBarOpen">&#9776;</a>
+            <div class="navbar">          
+                <a href="#about" class="">About</a>
+                <a href="#services">Services</a>
+                <a href="#clients">Clients</a>
+                <a href="#contact">Contact</a>
+                <a href="#Dropdown1" class="dropdown-btn">Dropdown</a>
+                <div class="dropdown-container">
+                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#Dropdown1" class="dropdown-btn">Dropdown1.1</a>
+                    <div class="dropdown-container">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                    <a href="#">Link 3</a>
+                </div>
+                <a href="#Dropdown2" class="dropdown-btn">Dropdown 2</a>
+                <div class="dropdown-container">
+                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
+                </div>
+            </div>
+            <div class="navbar" id="id_dynamic_menu">
+           
+            
+            </div>
+            
+        </div>
+    
+        <!------------------------- Alarm / Warning Information ----------------------------------------------->
+
+        
+        <!------------------------- hauptseite ----------------------------------------------->
+        <div id="id_main_content" class="Content class_content">
+            <p id="demo"> Deeehhhmoo </p>
+        </div>
+    </div>
+    
+    
+    <script>
+	
+	      var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+        
+    </script>
+
+</body>
+
+</html>

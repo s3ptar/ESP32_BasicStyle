@@ -102,7 +102,7 @@ void setup() {
 
     // Route for root / web page
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(200, "text/plain", "Hello World");
+        request->send(SPIFFS, "/index.html");
     });
  
     server.begin();                  //Start server
