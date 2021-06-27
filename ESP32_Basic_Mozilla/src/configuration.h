@@ -19,7 +19,12 @@
 #include <Arduino.h>
 #include "settings.h"
 #include "WiFi.h"
-#include "SPIFFS.h"
+#if defined(ESP8266)
+    #include "FS.h"
+    #include "SPI.h"
+#elif defined(ESP32)
+    #include "SPIFFS.h"
+#endif
 #include <ESPAsyncWebServer.h>
 #ifdef _mozilla_iot_enable_
     #define ARDUINOJSON_USE_LONG_LONG 1

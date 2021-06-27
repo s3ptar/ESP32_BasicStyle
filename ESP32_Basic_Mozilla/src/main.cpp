@@ -2,7 +2,9 @@
 #include "settings.h"
 #include "configuration.h"
 #include "stdint.h"
-#include "heltec.h"
+#if defined(_Heltec_Board_)
+    #include "heltec.h"
+#endif
 #include "mozilla_iot.h"
 /***********************************************************************
 * Informations

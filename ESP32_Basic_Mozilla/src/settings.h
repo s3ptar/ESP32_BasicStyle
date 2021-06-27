@@ -58,6 +58,9 @@
     #if DeviceClassID == HELTEC
         #define DeviceName "Heltec"
         #define _Heltec_Board_ 
+    #else
+        #define DeviceName "ESP"
+        #define _ESP_Board_ 
     #endif
 #endif
 
